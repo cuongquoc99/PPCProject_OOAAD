@@ -25,6 +25,7 @@
 
     th {
         text-align: center;
+        background-color: chartreuse;
     }
 
     td {
@@ -50,7 +51,6 @@
                 <th>Price</th>
                 <th>Avatar</th>
                 <th>Property Status</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -58,7 +58,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td style="font-weight: bold">
                         @Html.DisplayFor(modelItem => item.Property_Code)
                     </td>
 
@@ -79,16 +79,17 @@
                     </td>
                     
                     <td>
-                        <div style="background">
+                        <div>
                             @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
                         </div>
+                        <p></p>
                         <div>
                             @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-warning" })
                         </div>
+                        <p></p>
                         <div>
                             @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
                         </div>
-                       
                     </td>
                 </tr>
             }
