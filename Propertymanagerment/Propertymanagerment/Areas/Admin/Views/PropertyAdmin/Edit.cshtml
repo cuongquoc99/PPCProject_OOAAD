@@ -1,0 +1,306 @@
+﻿@model Propertymanagerment.Models.Property
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    input {
+        margin-left: 30px;
+    }
+    
+    textarea {
+        margin-left: 30px;
+    }
+
+    #Description {
+        width: 800px;
+        height: 80px;
+    }
+
+    #Address {
+        width: 800px;
+    }
+
+    #Property_Name {
+        width: 400px;
+    }
+
+    h2 {
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: -10px;
+    }
+
+    img {
+       width: 150px;
+       height: 150px;
+    }
+
+    input[id=Property_Code] {
+        pointer-events:none;
+        background-color: #dddddd;
+        color: gray;
+    }
+    
+    select {
+       margin-left: 30px;
+       height: 30px;
+    }
+
+    .btn-default {
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<title>Cập Nhật Bất Động Sản.</title>
+
+<h2>Cập Nhật Bất Động Sản</h2>
+
+@using (Html.BeginForm("Edit", "PropertyAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.ID)
+
+<table>
+    <tr>
+        <td id="Large">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Property_Code, "Property Code:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Property_Code)
+                @Html.ValidationMessageFor(model => model.Property_Code)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Property_Name, "Property Name:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Property_Name)
+                @Html.ValidationMessageFor(model => model.Property_Name)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Property_Type_ID, "Property Type:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.DropDownList("Property_Type_ID", String.Empty)
+                @Html.ValidationMessageFor(model => model.Property_Type_ID)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, "Description:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.TextArea("Description")
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.District_ID, "District:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.DropDownList("District_ID", String.Empty)
+                @Html.ValidationMessageFor(model => model.District_ID)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, "Address:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address)
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Area, "Area:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Area)
+                @Html.ValidationMessageFor(model => model.Area)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Bed_Room, "Bed Room:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bed_Room)
+                @Html.ValidationMessageFor(model => model.Bed_Room)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Bath_Room, "Bath Room:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bath_Room)
+                @Html.ValidationMessageFor(model => model.Bath_Room)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, "Price:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price)%
+                @Html.ValidationMessageFor(model => model.Price)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Installment_Rate, "Installment Rate:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Installment_Rate) %
+                @Html.ValidationMessageFor(model => model.Installment_Rate)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                <label for="1339" class="control-label col-md-2">Avatar:</label>
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                <input type="file" style="color:red" name="Image" id="1339" onchange="readIMG(this)" />
+                <img src="@Url.Content("~/PropertyAdmin/Image/"+Model.ID)" id="Demo" />
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                <label for="1339" class="control-label col-md-2">Album:</label>
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                <input type="file" style="color:red" name="Image" id="1339" onchange="readIMG(this)" />
+                <img src="@Url.Content("~/PropertyAdmin/Image/"+Model.ID)" id="Demo" />
+
+                <input type="file" style="color:red" name="Image1" id="1339" onchange="readIMG(this)" />
+                <img src="@Url.Content("~/PropertyAdmin/Image1/"+Model.ID)" id="Demo" />
+
+                <input type="file" style="color:red" name="Image2" id="1339" onchange="readIMG(this)" />
+                <img src="@Url.Content("~/PropertyAdmin/Image2/"+Model.ID)" id="Demo" />
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Property_Status_ID, "Property Status:", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                @Html.DropDownList("Property_Status_ID", String.Empty)
+                @Html.ValidationMessageFor(model => model.Property_Status_ID)
+            </div>
+        </td>
+    </tr>
+
+</table>
+
+    <div class="form-group" align="center">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Update" class="btn btn-primary" />     
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function readIMG(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $(input).next()
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(150);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Propertymanagerment.Models.Property>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<title>Website PPC</title>
+
+<style>
+    .btn-primary {
+        margin-left: 20px;
+        margin-top: 5px;
+    }
+
+    h2 {
+        margin-top: 12px;
+        margin-bottom: -12px;
+    }
+
+    img {
+        width: 150px;
+        height: 150px;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>
+
+<h2 style="font-weight: bold; text-align: center">QUẢN LÝ BẤT ĐỘNG SẢN</h2>
+<hr />
+<div>
+    <p>
+        @Html.ActionLink("Tạo mới", "Create", null, new {@class = "btn btn-primary"})
+    </p>
+</div>
+
+
+<div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Property Code</th>
+                <th>Property Name</th>
+                <th>Price</th>
+                <th>Avatar</th>
+                <th>Property Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property_Code)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property_Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    
+                    <td>
+                        <img src="@Url.Action("Image", new { id = item.ID }) " />
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property_Status.Property_Status_Name)
+                    </td>
+                    
+                    <td>
+                        <div style="background">
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
+                        </div>
+                        <div>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-warning" })
+                        </div>
+                        <div>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                        </div>
+                       
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+        
+    </table>
+</div>
+

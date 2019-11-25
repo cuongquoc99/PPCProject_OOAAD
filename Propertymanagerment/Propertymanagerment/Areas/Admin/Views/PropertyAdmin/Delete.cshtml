@@ -1,0 +1,126 @@
+﻿@model Propertymanagerment.Models.Property
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<title>Xóa Bất Động Sản</title>
+
+<style>
+    th {
+        color: orangered;
+    }
+
+    tr:hover {
+        background-color: chartreuse;
+    }
+
+    .btn {
+        margin-bottom: 20px;
+    }
+
+     img {
+        width: 150px;
+        height: 150px;
+     }
+
+</style>
+
+<h3 style="color: deepskyblue; margin-top: 7px; margin-bottom: -7px;">Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <h3 style="color: red; font-weight: bold; text-align: center; margin-top: -5px;">
+        Thông tin bất động sản
+    </h3>
+    <table class="table table-bordered success">
+        <tr>
+            <th id="Large">Property Code:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Property_Code)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Property Name:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Property_Name)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Property Type:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Property_Type.Property_Type_Name)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Description:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Description)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">District Name:</th>
+            <td id="Large">@Html.DisplayFor(model => model.District.District_Name)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Address:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Address)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Area:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Area)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Bed Room:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Bed_Room)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Bath Room:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Bath_Room)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Price:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Price)</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Installment Rate:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Installment_Rate) %</td>
+        </tr>
+
+        <tr>
+            <th id="Large">Avatar:</th>
+            <td id="Large">
+                <img src="@Url.Action("Image", new { id = Model.ID }) " />
+            </td>
+        </tr>
+
+        <tr>
+            <th id="Large">Album:</th>
+            <td id="Large">
+                <img src="@Url.Action("Image", new { id = Model.ID }) " />
+                <img src="@Url.Action("Image1", new { id = Model.ID }) " />
+                <img src="@Url.Action("Image2", new { id = Model.ID }) " />
+            </td>
+        </tr>
+
+        <tr>
+            <th id="Large">Property Status Name:</th>
+            <td id="Large">@Html.DisplayFor(model => model.Property_Status.Property_Status_Name)</td>
+        </tr>
+
+    </table>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color" align="center">
+                <input type="submit" value="Delete" class="btn btn-primary" />              
+            </div>
+
+            <div>
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        }
+</div>
