@@ -20,12 +20,26 @@
         font-weight: bold;
     }
 
+    th {
+        color: chocolate;
+    }
+
     tr:hover {
         background-color: chartreuse;
     }
+
+    .btn-primary:hover {
+        font-weight: bold;
+        color: yellow;
+    }
+
+    .btn-default:hover {
+        font-weight: bold;
+        color: chocolate;
+    }
 </style>
 
-<h2>Chi Tiết Bất Động Sản</h2>
+<h2 style="color:royalblue">Chi Tiết Bất Động Sản</h2>
 
 <div>
     <hr />
@@ -162,7 +176,7 @@
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        @Html.ActionLink("Navigate to Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Navigate to Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" }) |
         @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
     </div>
 </div>

@@ -3,15 +3,41 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var districtUrl = "/Admin/PropertyAdmin/GetDistrictByCityId/";
+            $("#ddlCity").on('change', function () {
+                var id = $(this).val();
+                _getDistrict(id, "ddlDistrict");
+            });
+            function _getDistrict(id, targetId) {
+                $.get(districtUrl + id, function (data) {
+                    if (data != null && data != undefined && data.length) {
+                        var html = '';
+                        html += '<option value="">--Select district--</option>';
+                        $.each(data, function (key, item) {
+                            html += '<option value=' + item.ID + '>' + item.District_Name + '</option>';
+                        });
+                        $("#" + targetId).html(html);
+                    } else {
+                        var html = '';
+                        html += '<option value="">--No district--</option>';
+                        $("#" + targetId).html(html);
+                    }
+                });
+            }
+        });
+    </script>
 }
 
 <style>
-    input {
-        margin-left: 30px;
+    h2 {
+        color: deepskyblue;
     }
-    
-    textarea {
-        margin-left: 30px;
+
+    .col-md-2 {
+        color: darkgoldenrod;
     }
 
     #Description {
@@ -33,256 +59,224 @@
         margin-bottom: -10px;
     }
 
-    img {
-       width: 150px;
-       height: 150px;
+    input[id="1339"] {
+        margin-top: auto;
+    }
+
+    input[id="1340"] {
+        margin-top: auto;
+    }
+
+    input[id="1341"] {
+        margin-top: auto;
+    }
+
+    input[id="1342"] {
+        margin-top: auto;
+    }
+
+    img[id=Demo] {
+        width: 150px;
+        height: 150px;
+    }
+
+    img[id=Demo1] {
+        width: 150px;
+        height: 150px;
+        margin-top: auto;
+    }
+
+    img[id=Demo2] {
+        width: 150px;
+        height: 150px;
+        margin-top: auto;
+    }
+
+    img[id=Demo3] {
+        width: 150px;
+        height: 150px;
+        margin-top: auto;
     }
 
     input[id=Property_Code] {
-        pointer-events:none;
+        pointer-events: none;
         background-color: #dddddd;
         color: gray;
     }
     
-    select {
-       margin-left: 30px;
-       height: 30px;
+    .btn-primary:hover {
+        font-weight: bold;
+        color: yellow;
+        width: 100px;
+        height: 40px;
     }
 
     .btn-default {
         margin-bottom: 10px;
     }
 
+    .btn-default:hover {
+        font-weight: bold;
+        color: chocolate;
+    }
+
+    select {
+        height: 30px;
+    }
 </style>
 
 <title>Cập Nhật Bất Động Sản.</title>
 
-<h2>Cập Nhật Bất Động Sản</h2>
+<h2 style="text-align: center; font-weight: bold">Cập Nhật Bất Động Sản</h2>
 
 @using (Html.BeginForm("Edit", "PropertyAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.ID)
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
 
-<table>
-    <tr>
-        <td id="Large">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Property_Code, "Property Code:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td id="Large">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Property_Code, "Property Code:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Property_Code)
-                @Html.ValidationMessageFor(model => model.Property_Code)
+                @Html.EditorFor(model => model.Property_Code, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Property_Code, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Property_Name, "Property Name:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Property_Name, "Property Name:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Property_Name)
-                @Html.ValidationMessageFor(model => model.Property_Name)
+                @Html.EditorFor(model => model.Property_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Property_Name, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Property_Type_ID, "Property Type:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Property_Type_ID, "Property Type:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Property_Type_ID", String.Empty)
-                @Html.ValidationMessageFor(model => model.Property_Type_ID)
+                @Html.DropDownList("Property_Type_ID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Property_Type_ID, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, "Description:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, "Description:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextArea("Description")
-                @Html.ValidationMessageFor(model => model.Description)
+                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.District_ID, "District:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.District.City_ID, "City:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("District_ID", String.Empty)
-                @Html.ValidationMessageFor(model => model.District_ID)
+                @Html.DropDownListFor(model => model.District.City_ID, ViewBag.City_ID as SelectList, new { id = "ddlCity", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.District_ID, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Address, "Address:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.District_ID, "District:", htmlAttributes: new { @class = "control-label col-md-2" })
+            
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Address)
-                @Html.ValidationMessageFor(model => model.Address)
+                <select id="ddlDistrict" class="form-control">
+                </select>
+                @Html.ValidationMessageFor(model => model.District_ID, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Area, "Area:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, "Address:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Area)
-                @Html.ValidationMessageFor(model => model.Area)
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Bed_Room, "Bed Room:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Area, "Area:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Bed_Room)
-                @Html.ValidationMessageFor(model => model.Bed_Room)
+                @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Bath_Room, "Bath Room:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bed_Room, "Bed Room:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Bath_Room)
-                @Html.ValidationMessageFor(model => model.Bath_Room)
+                @Html.EditorFor(model => model.Bed_Room, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bed_Room, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Price, "Price:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bath_Room, "Bath Room:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Price)%
-                @Html.ValidationMessageFor(model => model.Price)
+                @Html.EditorFor(model => model.Bath_Room, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bath_Room, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Installment_Rate, "Installment Rate:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, "Price:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Installment_Rate) %
-                @Html.ValidationMessageFor(model => model.Installment_Rate)
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                <label for="1339" class="control-label col-md-2">Avatar:</label>
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Installment_Rate, "Installament Rate:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" style="color:red" name="Image" id="1339" onchange="readIMG(this)" />
+                @Html.EditorFor(model => model.Installment_Rate, new { htmlAttributes = new { @class = "form-control" } }) %
+                @Html.ValidationMessageFor(model => model.Installment_Rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="1339" class="control-label col-md-2">Avatar:</label>
+            <div class="col-md-10">
+                <input type="file" style="color:red" name="Image" id="1340" onchange="readIMG(this)" />
                 <img src="@Url.Content("~/PropertyAdmin/Image/"+Model.ID)" id="Demo" />
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                <label for="1339" class="control-label col-md-2">Album:</label>
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            <label for="1339" class="control-label col-md-2">Album:</label>
             <div class="col-md-10">
-                <input type="file" style="color:red" name="Image" id="1339" onchange="readIMG(this)" />
-                <img src="@Url.Content("~/PropertyAdmin/Image/"+Model.ID)" id="Demo" />
-
-                <input type="file" style="color:red" name="Image1" id="1339" onchange="readIMG(this)" />
-                <img src="@Url.Content("~/PropertyAdmin/Image1/"+Model.ID)" id="Demo" />
-
-                <input type="file" style="color:red" name="Image2" id="1339" onchange="readIMG(this)" />
-                <img src="@Url.Content("~/PropertyAdmin/Image2/"+Model.ID)" id="Demo" />
+                <input type="file" style="color:red" name="Image" id="1340" onchange="readIMG(this)" />
+                <img src="@Url.Content("~/PropertyAdmin/Image/"+Model.ID)" id="Demo1" />
+                <p></p>
+                <input type="file" style="color:red" name="Image1" id="1341" onchange="readIMG(this)" />
+                <img src="@Url.Content("~/PropertyAdmin/Image1/"+Model.ID)" id="Demo2" />
+                <p></p>
+                <input type="file" style="color:red" name="Image2" id="1342" onchange="readIMG(this)" />
+                <img src="@Url.Content("~/PropertyAdmin/Image2/"+Model.ID)" id="Demo3" />
             </div>
-        </td>
-    </tr>
+        </div>
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Property_Status_ID, "Property Status:", htmlAttributes: new { @class = "control-label col-md-2" })
-            </div>
-        </td>
-        <td>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Property_Status_ID, "Property Status:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Property_Status_ID", String.Empty)
-                @Html.ValidationMessageFor(model => model.Property_Status_ID)
+                @Html.DropDownList("Property_Status_ID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Property_Status_ID, "", new { @class = "text-danger" })
             </div>
-        </td>
-    </tr>
+        </div>
 
-</table>
 
-    <div class="form-group" align="center">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Update" class="btn btn-primary" />     
+        <div class="form-group" align="center">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
-
-    <div>
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
-    </div>
-</div>
 }
 
 @section Scripts {

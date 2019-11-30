@@ -19,11 +19,22 @@
         margin-bottom: 20px;
     }
 
-     img {
+    .btn:hover {
+        font-weight: bold;
+        color: chocolate;
+    }
+
+    img {
         width: 150px;
         height: 150px;
-     }
+    }
 
+    .btn-primary:hover {
+        font-weight: bolder;
+        color: red;
+        width: 100px;
+        height: 40px;
+    }
 </style>
 
 <h3 style="color: deepskyblue; margin-top: 7px; margin-bottom: -7px;">Are you sure you want to delete this?</h3>
@@ -85,7 +96,7 @@
 
         <tr>
             <th id="Large">Installment Rate:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Installment_Rate) %</td>
+            <td id="Large">@Html.DisplayFor(model => model.Installment_Rate)%</td>
         </tr>
 
         <tr>

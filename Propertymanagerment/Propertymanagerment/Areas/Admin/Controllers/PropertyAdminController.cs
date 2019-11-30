@@ -54,6 +54,7 @@ namespace Propertymanagerment.Areas.Admin.Controllers
                     // save file to app_data
                     model.Properties.Add(property);
                     model.SaveChanges();
+                    PopularMessage(true);
 
                     var path = Server.MapPath("~/App_Data");
                     path = System.IO.Path.Combine(path, property.ID.ToString());
@@ -66,8 +67,17 @@ namespace Propertymanagerment.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            PopularData();
-            return View("Create", property);
+            else
+                PopularMessage(false);
+                PopularData();
+                return View("Create", property);
+        }
+        public void PopularMessage(bool success)
+        {
+            if (success)
+                Session["success"] = "Successful!";
+            else
+                Session["success"] = "Fail!";
         }
 
         [HttpGet]
@@ -122,14 +132,17 @@ namespace Propertymanagerment.Areas.Admin.Controllers
 
                     model.Entry(prop).State = EntityState.Modified;
                     model.SaveChanges();
-                    
+                    PopularMessage(true);
+
                     // all done successfully
                     scope.Complete();
                     return RedirectToAction("Index");
                 }
             }
-            PopularData();
-            return View("Edit", pr);      
+            else
+                PopularMessage(false);
+                PopularData();
+                return View("Edit", pr);      
         }
 
         [HttpGet]
@@ -156,11 +169,12 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             return View(property);
         }
 
-        public void PopularData(object propertyTypeSelected = null, object districtSelected = null, object propertStatusSelected = null)
+        public void PopularData(object propertyTypeSelected = null, object districtSelected = null, object propertStatusSelected = null, object citySelected = null)
         {
+            ViewBag.District_ID = new SelectList(model.Districts.ToList(), "ID", "District_Name", districtSelected);
             ViewBag.Property_Type_ID = new SelectList(model.Property_Type.ToList(), "ID", "Property_Type_Name", propertyTypeSelected);
-            ViewBag.District_ID = new SelectList(model.Districts.ToList(), "ID", "District_Name", propertyTypeSelected);
-            ViewBag.Property_Status_ID = new SelectList(model.Property_Status.ToList(), "ID", "Property_Status_Name", propertyTypeSelected);
+            ViewBag.Property_Status_ID = new SelectList(model.Property_Status.ToList(), "ID", "Property_Status_Name", propertStatusSelected);
+            ViewBag.City_ID = new SelectList(model.Cities.ToList(), "ID", "City_Name", citySelected);
         }
 
         public ActionResult Image(string id)
@@ -184,13 +198,12 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             return File(path + "_2", "image/*");
         }
 
-        public void PopularMessage(bool success)
+        public JsonResult GetDistrictByCityId(int id)
         {
-            if (success)
-                Session["success"] = "Successful!";
-            else
-                Session["success"] = "Fail!";
+            // Disable proxy creation
+            model.Configuration.ProxyCreationEnabled = false;
+            var listDistrict = model.Districts.Where(x => x.City_ID == id).ToList();
+            return Json(listDistrict, JsonRequestBehavior.AllowGet);
         }
-
-	}
+    }
 }

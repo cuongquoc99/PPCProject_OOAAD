@@ -8,9 +8,18 @@
 <title>Website PPC</title>
 
 <style>
+    h2 { 
+        font-weight: bold;
+        color: blueviolet;
+    }
     .btn-primary {
         margin-left: 20px;
         margin-top: 5px;
+    }
+
+    .btn-primary:hover {
+        font-weight: bold;
+        color: yellow;
     }
 
     h2 {
@@ -35,12 +44,19 @@
 
 <h2 style="font-weight: bold; text-align: center">QUẢN LÝ BẤT ĐỘNG SẢN</h2>
 <hr />
-<div>
-    <p>
-        @Html.ActionLink("Tạo mới", "Create", null, new {@class = "btn btn-primary"})
-    </p>
-</div>
 
+<p>
+    @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary" })
+    @if (Session["success"] != null)
+    {
+    <div class="alert alert-success alert-dismissible" role="alert" uiactions="dismiss">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span class="closebtn" aria-hidden="true">&times</span>
+        </button>
+        <strong>Well done!</strong> @Session["success"]
+    </div>
+    }
+</p>
 
 <div class="card-body">
     <table id="example1" class="table table-bordered table-striped">
@@ -71,7 +87,7 @@
                     </td>
                     
                     <td>
-                        <img src="@Url.Action("Image", new { id = item.ID }) " />
+                        <img src="@Url.Action("Image", new { id = item.ID })" />
                     </td>
                     
                     <td>
