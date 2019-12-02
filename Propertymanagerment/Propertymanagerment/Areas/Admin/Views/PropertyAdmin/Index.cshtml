@@ -5,13 +5,17 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<title>Website PPC</title>
+<title>Quản Lý Bất Động Sản</title>
 
 <style>
     h2 { 
         font-weight: bold;
-        color: blueviolet;
+        text-align: center;
+        color: blueviolet; 
+        margin-top: 7px;
+        margin-bottom: -7px;
     }
+
     .btn-primary {
         margin-left: 20px;
         margin-top: 5px;
@@ -20,11 +24,6 @@
     .btn-primary:hover {
         font-weight: bold;
         color: yellow;
-    }
-
-    h2 {
-        margin-top: 12px;
-        margin-bottom: -12px;
     }
 
     img {
@@ -55,20 +54,11 @@
     }
 </style>
 
-<h2 style="font-weight: bold; text-align: center">QUẢN LÝ BẤT ĐỘNG SẢN</h2>
+<h2>QUẢN LÝ BẤT ĐỘNG SẢN</h2>
 <hr />
 
 <p>
     @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary" })
-    @if (Session["success"] != null)
-    {
-    <div class="alert alert-success alert-dismissible" role="alert" uiactions="dismiss">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span class="closebtn" aria-hidden="true">&times</span>
-        </button>
-        <strong>Well done!</strong> @Session["success"]
-    </div>
-    }
 </p>
 
 <div class="card-body">
@@ -80,6 +70,7 @@
                 <th>Price</th>
                 <th>Avatar</th>
                 <th>Property Status</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -109,15 +100,15 @@
                     
                     <td>
                         <div>
-                            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
-                        </div>
-                        <p></p>
-                        <div>
                             @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-warning" })
                         </div>
                         <p></p>
                         <div>
                             @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                        </div>
+                        <p></p>
+                        <div>
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
                         </div>
                     </td>
                 </tr>

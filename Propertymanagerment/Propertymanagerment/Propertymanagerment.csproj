@@ -164,6 +164,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\FullContractController.cs" />
+    <Compile Include="Areas\Admin\Controllers\InstallmentContractController.cs" />
     <Compile Include="Areas\Admin\Controllers\PropertyAdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -242,6 +244,16 @@
     <Content Include="Scripts\dataTables.bootstrap4.js" />
     <Content Include="Scripts\demo.js" />
     <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\InstallmentContract\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\InstallmentContract\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\InstallmentContract\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\InstallmentContract\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\InstallmentContract\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FullContract\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FullContract\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\FullContract\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\FullContract\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FullContract\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

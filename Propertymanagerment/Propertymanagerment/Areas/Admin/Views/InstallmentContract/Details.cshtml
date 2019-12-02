@@ -1,0 +1,194 @@
+﻿@model Propertymanagerment.Models.Installment_Contract
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<title>Xem Chi Tiết Hợp Đồng Trả Góp</title>
+
+<style>
+    h2 {
+        margin-top: 5px;
+        margin-bottom: -10px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    th {
+        color: chocolate;
+    }
+
+    tr:hover {
+        background-color: chartreuse;
+    }
+
+    .btn-primary:hover {
+        font-weight: bold;
+        color: yellow;
+    }
+
+    .btn-default:hover {
+        font-weight: bold;
+        color: chocolate;
+    }
+</style>
+
+<h2 style="color:royalblue">Chi Tiết Hợp Đồng Trả Góp</h2>
+
+<div>
+    <hr />
+    <table class="table table-bordered success">
+        <tr>
+            <th>
+                Installment Contract Code:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Installment_Contract_Code)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Customer Name:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Customer_Name)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Year Of Birth:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Year_Of_Birth)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                SSN:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.SSN)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Customer Address:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Customer_Address)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Mobile:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Mobile)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Date Of Contract:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Date_Of_Contract)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Installment Payment Method:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Installment_Payment_Method)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Payment Period:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Payment_Period)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Price:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Price)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Deposit:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Deposit)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Loan Amount:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Loan_Amount)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Taken:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Taken)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Remain:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Remain)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Status:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Status)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
+                Property Code:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Property.Property_Code)
+            </td>
+        </tr>
+        
+    </table>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Navigate to Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" }) |
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>
