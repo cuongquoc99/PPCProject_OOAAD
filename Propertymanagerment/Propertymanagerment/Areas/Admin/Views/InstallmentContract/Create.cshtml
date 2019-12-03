@@ -22,20 +22,11 @@
         margin-bottom: 10px;
     }
 
-    .col-md-10:required {
-        border-color: red;
-        border-width: 3px;
-    }
-
     textarea {
         width: 500px;
     }
 
     select {
-        width: 500px;
-    }
-
-    input[id=Property_Name] {
         width: 500px;
     }
 
@@ -63,6 +54,7 @@
 <div class="form-horizontal">
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
     <div class="form-group">
         @Html.LabelFor(model => model.Customer_Name, "Customer Name:", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">

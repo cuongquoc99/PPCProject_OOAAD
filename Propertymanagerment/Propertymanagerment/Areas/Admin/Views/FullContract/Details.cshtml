@@ -5,111 +5,154 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Details</h2>
+<title>Xem Chi Tiết Hợp Đồng Trả Góp</title>
+
+<style>
+    h2 {
+        margin-top: 5px;
+        margin-bottom: -10px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    th {
+        color: chocolate;
+    }
+
+    tr:hover {
+        background-color: chartreuse;
+    }
+
+    .btn-primary:hover {
+        font-weight: bold;
+        color: yellow;
+    }
+
+    .btn-default:hover {
+        font-weight: bold;
+        color: chocolate;
+    }
+</style>
+
+<h2 style="color:royalblue">Chi Tiết Hợp Đồng Trả Góp</h2>
 
 <div>
-    <h4>Full_Contract</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Full_Contract_Code)
-        </dt>
+    <table class="table table-bordered success">
+        <tr>
+            <th>
+                Installment Contract Code:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Full_Contract_Code)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Full_Contract_Code)
-        </dd>
+        <tr>
+            <th>
+                Customer Name:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Customer_Name)
+            </td>
+        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Customer_Name)
-        </dt>
+        <tr>
+            <th>
+                Year Of Birth:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Year_Of_Birth)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Customer_Name)
-        </dd>
+        <tr>
+            <th>
+                SSN:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.SSN)
+            </td>
+        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Year_Of_Birth)
-        </dt>
+        <tr>
+            <th>
+                Customer Address:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Customer_Address)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Year_Of_Birth)
-        </dd>
+        <tr>
+            <th>
+                Mobile:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Mobile)
+            </td>
+        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SSN)
-        </dt>
+        <tr>
+            <th>
+                Date Of Contract:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Date_Of_Contract)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.SSN)
-        </dd>
+        <tr>
+            <th>
+                Price:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Price)
+            </td>
+        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Customer_Address)
-        </dt>
+        <tr>
+            <th>
+                Deposit:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Deposit)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Customer_Address)
-        </dd>
+        <tr>
+            <th>
+                Remain:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Remain)
+            </td>
+        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Mobile)
-        </dt>
+        <tr>
+            <th>
+                Status:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Status)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Mobile)
-        </dd>
+        <tr>
+            <th>
+                Property Code:
+            </th>
+            <td id="Large">
+                @Html.DisplayFor(model => model.Property.Property_Code)
+            </td>
+        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date_Of_Contract)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date_Of_Contract)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Deposit)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Deposit)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Remain)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Remain)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Property.Property_Code)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Property.Property_Code)
-        </dd>
-
-    </dl>
+    </table>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Navigate to Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" }) |
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>

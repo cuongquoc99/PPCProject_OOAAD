@@ -5,63 +5,103 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
 
 <style>
     html {
         width: fit-content;
     }
+
+    h2 {
+        text-align: center;
+        font-weight: bold;
+        color:indigo;
+        margin-top: 7px;
+        margin-bottom: -7px;
+    }
+
+    .btn-primary {
+        margin-left: 20px;
+        margin-top: 5px;
+    }
+
+    .btn-primary:hover {
+        font-weight: bold;
+        color: yellow;
+    }
+
+    th {
+        text-align: center;
+        background-color: aqua;
+        color: purple;
+    }
+
+    .btn-info:hover {
+        font-weight: bold;
+    }
+
+    .btn-warning:hover {
+        font-weight: bold;
+    }
+
+    .btn-danger:hover {
+        font-weight: bold;
+    }
 </style>
 
+<title>Quản Lý Hợp Đồng Thanh Toán Một Lần</title>
+
+<h2>QUẢN LÍ HỢP ĐỒNG THANH TOÁN MỘT LẦN</h2>
+<hr />
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary" })
 </p>
 
-<table id="example1" class="table table-bordered table-striped">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Full_Contract_Code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Customer_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Year_Of_Birth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SSN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Customer_Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Mobile)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date_Of_Contract)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Deposit)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Remain)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Property.Property_Code)
-        </th>
-        <th></th>
-    </tr>
+<div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+        <tr>
+            <th>
+                Full Contract Code
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Year Of Birth
+            </th>
+            <th>
+                SSN
+            </th>
+            <th>
+                Customer Address
+            </th>
+            <th>
+                Mobile:
+            </th>
+            <th>
+                Date Of Contract
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Deposit
+            </th>
+            <th>
+                Remain
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Property Code
+            </th>
+            <th></th>
+        </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td style="font-weight: bold">
                 @Html.DisplayFor(modelItem => item.Full_Contract_Code)
             </td>
             <td>
@@ -98,11 +138,20 @@
                 @Html.DisplayFor(modelItem => item.Property.Property_Code)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                <div>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-info" }) 
+                </div>
+                <p></p>
+                <div>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-warning" })
+                </div>
+                <p></p>
+                <div>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-danger"})
+                </div>
             </td>
         </tr>
     }
 
-</table>
+    </table>
+</div>
