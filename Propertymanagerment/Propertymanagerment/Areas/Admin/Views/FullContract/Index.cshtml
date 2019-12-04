@@ -46,6 +46,9 @@
     .btn-danger:hover {
         font-weight: bold;
     }
+    .btn-default:hover {
+        font-weight: bold;
+    }
 </style>
 
 <title>Quản Lý Hợp Đồng Thanh Toán Một Lần</title>
@@ -148,6 +151,10 @@
                 <p></p>
                 <div>
                     @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-danger"})
+                </div>
+                <p></p>
+                <div class="btn btn-default">
+                    <a href="@Url.Action("Print", "FullContract", new { id = item.ID })" target="_blank">Print</a>
                 </div>
             </td>
         </tr>

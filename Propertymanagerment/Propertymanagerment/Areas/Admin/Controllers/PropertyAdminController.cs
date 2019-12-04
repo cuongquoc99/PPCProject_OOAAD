@@ -17,8 +17,8 @@ namespace Propertymanagerment.Areas.Admin.Controllers
         // GET: /Admin/PropertyAdmin/
         public ActionResult Index()
         {
-            var property = model.Properties.ToList();
-            return View(property);
+            var properties = model.Properties.Include(p => p.District).Include(p => p.Property_Status).Include(p => p.Property_Type);
+            return View(properties.ToList());
         }
 
         [HttpGet]

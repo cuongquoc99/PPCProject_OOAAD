@@ -179,10 +179,12 @@
     <Compile Include="Models\District.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FullContractPrintModel.cs" />
     <Compile Include="Models\Full_Contract.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InstallmentContractPrintModel.cs" />
     <Compile Include="Models\Installment_Contract.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -220,11 +222,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Print\index.html" />
     <Content Include="Content\adminlte.min.css" />
     <Content Include="Content\all.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dataTables.bootstrap4.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Images\ppc0001.jpg" />
     <Content Include="Images\ppc0002.jpg" />
@@ -254,6 +258,8 @@
     <Content Include="Areas\Admin\Views\FullContract\Details.cshtml" />
     <Content Include="Areas\Admin\Views\FullContract\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\FullContract\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FullContract\Print.cshtml" />
+    <Content Include="Areas\Admin\Views\InstallmentContract\Print.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -345,6 +351,12 @@
     <Content Include="webfonts\fa-solid-900.ttf" />
     <Content Include="webfonts\fa-solid-900.woff" />
     <Content Include="webfonts\fa-solid-900.woff2" />
+    <Content Include="webfonts\SourceSansPro-Regular.ttf" />
+    <Content Include="Views\InstallmentContractPrintModel\Create.cshtml" />
+    <Content Include="Views\InstallmentContractPrintModel\Delete.cshtml" />
+    <Content Include="Views\InstallmentContractPrintModel\Details.cshtml" />
+    <Content Include="Views\InstallmentContractPrintModel\Edit.cshtml" />
+    <Content Include="Views\InstallmentContractPrintModel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

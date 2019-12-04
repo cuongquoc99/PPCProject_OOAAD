@@ -119,7 +119,29 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        public ActionResult Print(int id)
+        {
+            var contract = db.Full_Contract.FirstOrDefault(n => n.ID == id);
+            if (contract != null)
+            {
+                FullContractPrintModel fc = new FullContractPrintModel();
+                fc.Customer_Name = contract.Customer_Name;
+                fc.Customer_Address = contract.Customer_Address;
+                fc.Date_Of_Contract = contract.Date_Of_Contract;
+                fc.Deposit = contract.Deposit;
+                fc.Mobile = contract.Mobile;
+                fc.Price = contract.Price;
+                fc.Property_Code = contract.Property.Property_Code;
+                fc.SSN = contract.SSN;
+                fc.Address = contract.Property.Address;
+                fc.Full_Contract_Code = contract.Full_Contract_Code;
+                return View(fc);
+            }
+            else
+            {
+                return View();
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
