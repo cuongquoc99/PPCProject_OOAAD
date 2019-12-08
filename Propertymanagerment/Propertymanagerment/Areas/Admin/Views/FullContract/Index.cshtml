@@ -5,160 +5,95 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
+<title>Manager Full Contract.</title>
 
-<style>
-    html {
-        width: fit-content;
-    }
+<h2 style="text-align:center">VIEW LIST OF FULL CONTRACT</h2>
+@if (Session["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
 
-    h2 {
-        text-align: center;
-        font-weight: bold;
-        color:indigo;
-        margin-top: 7px;
-        margin-bottom: -7px;
-    }
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Well done!</strong> @Session["success"]
+    </div>
+}
 
-    .btn-primary {
-        margin-left: 20px;
-        margin-top: 5px;
-    }
-
-    .btn-primary:hover {
-        font-weight: bold;
-        color: yellow;
-    }
-
-    th {
-        text-align: center;
-        background-color: aqua;
-        color: purple;
-    }
-
-    .btn-info:hover {
-        font-weight: bold;
-    }
-
-    .btn-warning:hover {
-        font-weight: bold;
-    }
-
-    .btn-danger:hover {
-        font-weight: bold;
-    }
-    .btn-default:hover {
-        font-weight: bold;
-    }
-</style>
-
-<title>Quản Lý Hợp Đồng Thanh Toán Một Lần</title>
-
-<h2>QUẢN LÍ HỢP ĐỒNG THANH TOÁN MỘT LẦN</h2>
-<hr />
 <p>
-    @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary" })
-</p>
+    @Html.ActionLink("Thêm bất động sản", "Create", null, new { @class = "btn btn-primary" })
 
-<div class="card-body">
-    <table id="example1" class="table table-bordered table-striped">
+</p>
+<table class="table table-bordered table-striped" id="example1">
+    <thead>
         <tr>
-            <th>
-                Full Contract Code
-            </th>
-            <th>
-                Customer Name
-            </th>
-            <th>
-                Year Of Birth
-            </th>
-            <th>
-                SSN
-            </th>
-            <th>
-                Customer Address
-            </th>
-            <th>
-                Mobile:
-            </th>
-            <th>
-                Date Of Contract
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Deposit
-            </th>
-            <th>
-                Remain
-            </th>
-            <th>
-                Status
-            </th>
-            <th>
-                Property Code
-            </th>
+            <th>FULL CONTRACT CODE</th>
+            <th>CUSTOMER NAME</th>
+            <th>SSN</th>
+            <th>PROPERTY CODE</th>
+            <th>MOBILE</th>
+            <th>DATE OF CONTRACT</th>
             <th></th>
         </tr>
+    </thead>
+    <tbody>
 
-    @foreach (var item in Model)
-    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Full_Contract_Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SSN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property.Property_Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_Of_Contract)
+                </td>
+                <td>
+                    <a href="@Url.Action("Print", "FullContract", new { id = item.ID })" target="_blank">
+                        <button style="font-weight: bold">
+                            <span class="fa fa-print">Print</span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
         <tr>
-            <td style="font-weight: bold">
-                @Html.DisplayFor(modelItem => item.Full_Contract_Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year_Of_Birth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SSN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer_Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_Of_Contract)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deposit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remain)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Property.Property_Code)
-            </td>
-            <td>
-                <div>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-info" }) 
-                </div>
-                <p></p>
-                <div>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-warning" })
-                </div>
-                <p></p>
-                <div>
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-danger"})
-                </div>
-                <p></p>
-                <div class="btn btn-default">
-                    <a href="@Url.Action("Print", "FullContract", new { id = item.ID })" target="_blank">Print</a>
-                </div>
-            </td>
+            <th>FULL CONTRACT CODE</th>
+            <th>CUSTOMER NAME</th>
+            <th>SSN</th>
+            <th>PROPERTY CODE</th>
+            <th>MOBILE</th>
+            <th>DATE OF CONTRACT</th>
+            <th></th>
         </tr>
-    }
+    </tfoot>
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
 
-    </table>
-</div>
+            $('.filter-container').filterizr({ gutterPixels: 3 });
+            $('.btn[data-filter]').on('click', function () {
+                $('.btn[data-filter]').removeClass('active');
+                $(this).addClass('active');
+            });
+        })
+    </script>
+}

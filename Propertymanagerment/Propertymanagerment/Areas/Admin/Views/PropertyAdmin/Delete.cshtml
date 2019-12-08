@@ -4,134 +4,192 @@
     ViewBag.Title = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-<title>Xóa Bất Động Sản @Model.Property_Code</title>
 
-<style>
-    th {
-        color: orangered;
-    }
-
-    tr:hover {
-        background-color: darkcyan;
-    }
-
-    .btn {
-        margin-bottom: 20px;
-    }
-
-    .btn:hover {
-        font-weight: bold;
-        color: chocolate;
-    }
-
-    img {
-        width: 150px;
-        height: 150px;
-    }
-
-    .btn-primary:hover {
-        font-weight: bolder;
-        color: red;
-        width: 100px;
-        height: 40px;
-    }
-</style>
-
-<h3 style="color: deepskyblue; margin-top: 7px; margin-bottom: -7px; font-weight: bold">Are you sure you want to delete this?</h3>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>XÓA BẤT ĐỘNG SẢN</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "PropertyAdmin")">DANH SÁCH BẤT ĐỘNG SẢN</a></li>
+                    <li class="breadcrumb-item active">XÓA BẤT ĐỘNG SẢN</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
 <div>
-    <hr />
-    <h3 style="color: red; font-weight: bold; text-align: center; margin-top: -5px;">
-        Thông tin bất động sản
-    </h3>
-    <table class="table table-bordered success">
-        <tr>
-            <th id="Large">Property Code:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Property_Code)</td>
-        </tr>
 
-        <tr>
-            <th id="Large">Property Name:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Property_Name)</td>
-        </tr>
+    @*<dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Property_Code)
+            </dt>
 
-        <tr>
-            <th id="Large">Property Type:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Property_Type.Property_Type_Name)</td>
-        </tr>
+            <dd>
+                @Html.DisplayFor(model => model.Property_Code)
+            </dd>
 
-        <tr>
-            <th id="Large">Description:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Description)</td>
-        </tr>
+            <dt>
+                @Html.DisplayNameFor(model => model.Property_Name)
+            </dt>
 
-        <tr>
-            <th id="Large">District Name:</th>
-            <td id="Large">@Html.DisplayFor(model => model.District.District_Name)</td>
-        </tr>
+            <dd>
+                @Html.DisplayFor(model => model.Property_Name)
+            </dd>
 
-        <tr>
-            <th id="Large">Address:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Address)</td>
-        </tr>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <tr>
-            <th id="Large">Area:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Area)</td>
-        </tr>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <tr>
-            <th id="Large">Bed Room:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Bed_Room)</td>
-        </tr>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <tr>
-            <th id="Large">Bath Room:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Bath_Room)</td>
-        </tr>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
 
-        <tr>
-            <th id="Large">Price:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Price)</td>
-        </tr>
+            <dt>
+                @Html.DisplayNameFor(model => model.Area)
+            </dt>
 
-        <tr>
-            <th id="Large">Installment Rate:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Installment_Rate)%</td>
-        </tr>
+            <dd>
+                @Html.DisplayFor(model => model.Area)
+            </dd>
 
-        <tr>
-            <th id="Large">Avatar:</th>
-            <td id="Large">
-                <img src="@Url.Action("Image", new { id = Model.ID }) " />
-            </td>
-        </tr>
+            <dt>
+                @Html.DisplayNameFor(model => model.Bed_Room)
+            </dt>
 
-        <tr>
-            <th id="Large">Album:</th>
-            <td id="Large">
-                <img src="@Url.Action("Image", new { id = Model.ID }) " />
-                <img src="@Url.Action("Image1", new { id = Model.ID }) " />
-                <img src="@Url.Action("Image2", new { id = Model.ID }) " />
-            </td>
-        </tr>
+            <dd>
+                @Html.DisplayFor(model => model.Bed_Room)
+            </dd>
 
-        <tr>
-            <th id="Large">Property Status Name:</th>
-            <td id="Large">@Html.DisplayFor(model => model.Property_Status.Property_Status_Name)</td>
-        </tr>
+            <dt>
+                @Html.DisplayNameFor(model => model.Bath_Room)
+            </dt>
 
-    </table>
+            <dd>
+                @Html.DisplayFor(model => model.Bath_Room)
+            </dd>
 
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
 
-            <div class="form-actions no-color" align="center">
-                <input type="submit" value="Delete" class="btn btn-primary" />              
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Installment_Rate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Installment_Rate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Avatar)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Avatar)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Album)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Album)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.District.District_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.District.District_Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Property_Status.Property_Status_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Property_Status.Property_Status_Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Property_Type.Property_Type_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Property_Type.Property_Type_Name)
+            </dd>
+
+        </dl>*@
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.Raw(TempData["msg"])
+        <div class="col-12">
+            <div class="card card-danger">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-title">THÔNG TIN BẤT ĐỘNG SẢN</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label> TÊN BẤT ĐỘNG SẢN</label>
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.Property_Name)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label> LOẠI BẤT ĐỘNG SẢN</label>
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.Property_Type.Property_Type_Name)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label> CHỌN TỈNH THÀNH  </label>
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.District.District_Name)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label> MÔ TẢ BẤT ĐỘNG SẢN  </label>
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.Description)
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Delete" class="btn btn-warning" style="margin-left:5%" />
+                <div class="btn btn-primary" style="margin-left:50%">@Html.ActionLink("Quay lại", "Index")</div>
             </div>
-        }
+        </div>
+    }
 </div>

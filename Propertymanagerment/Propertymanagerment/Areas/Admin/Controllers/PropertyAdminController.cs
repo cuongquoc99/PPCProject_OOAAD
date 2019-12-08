@@ -2,200 +2,238 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Data.Entity;
 using System.Web.Mvc;
-using System.Transactions;
 using Propertymanagerment.Models;
+using System.IO;
+using System.Transactions;
+using System.Data.Entity;
 
-namespace Propertymanagerment.Areas.Admin.Controllers
+namespace PropertyManagerment.Areas.Admin.Controllers
 {
     public class PropertyAdminController : Controller
     {
         PPCDBEntities model = new PPCDBEntities();
-
-        //
-        // GET: /Admin/PropertyAdmin/
+        // GET: Admin/PropertyAdmin
         public ActionResult Index()
         {
-            var properties = model.Properties.Include(p => p.District).Include(p => p.Property_Status).Include(p => p.Property_Type);
-            return View(properties.ToList());
+            var property = model.Properties.ToList();
+
+            return View(property);
         }
 
-        [HttpGet]
-        public ActionResult Create(){
-            PopularData();
+        public ActionResult Create()
+        {
+            PopuparData();
+
+            otherData();
+
             return View();
         }
-
-        [HttpPost]
-        public ActionResult Create([Bind(Include = "Property_Name, Property_Type_ID, Description, District_ID, Address, Area, Bed_Room, Bath_Room, Price, Installment_Rate, Avatar, Album, Property_Status_ID")] Property property)
+        public ActionResult Delete(int? id)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                using (var scope = new TransactionScope())
-                {
-
-                    // add model to database
-                    var prop= new Property();
-                    prop.Property_Name = property.Property_Name;
-                    prop.Property_Type_ID = property.Property_Type_ID;
-                    prop.Description = property.Description;
-                    prop.District_ID = property.District_ID;
-                    prop.Address = property.Address;
-                    prop.Area = property.Area;
-                    prop.Bed_Room = property.Bed_Room;
-                    prop.Bath_Room = property.Bath_Room;
-                    prop.Price = property.Price;
-                    prop.Installment_Rate = property.Installment_Rate;
-                    prop.Avatar = property.Avatar;
-                    prop.Album = property.Album;
-                    prop.Property_Status_ID = property.Property_Status_ID;
-
-                    // save file to app_data
-                    model.Properties.Add(property);
-                    model.SaveChanges();
-                    PopularMessage(true);
-
-                    var path = Server.MapPath("~/App_Data");
-                    path = System.IO.Path.Combine(path, property.ID.ToString());
-                    Request.Files["Image"].SaveAs(path + "_0");
-                    Request.Files["Image1"].SaveAs(path + "_1");
-                    Request.Files["Image2"].SaveAs(path + "_2");
-
-                    // all done successfully
-                    scope.Complete();
-                    return RedirectToAction("Index");
-                }
+                return RedirectToAction("index", "notfound");
             }
-            else
-                PopularMessage(false);
-                PopularData();
-                return View("Create", property);
+            Property property = model.Properties.FirstOrDefault(x => x.ID == id);
+
+            if (property == null)
+            {
+                return RedirectToAction("index", "notfound");
+            }
+            return View(property);
+        }
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("index", "notfound");
+            }
+            Property property = model.Properties.FirstOrDefault(x => x.ID == id);
+
+            if (property == null)
+            {
+                return RedirectToAction("index", "notfound");
+            }
+            otherData(property.District.City_ID, model.Property_Service.Where(x => x.Property_ID == property.ID).Select(x => x.Service_ID));
+            PopuparData(property.Property_Type_ID, property.District_ID, property.Property_Status_ID);
+            return View(property);
+        }
+
+        public void PopuparData(object propertypeSelected = null, object districtSelected = null, object statusSelected = null)
+        {
+            ViewBag.Property_Type_ID = new SelectList(model.Property_Type.ToList(), "ID", "Property_Type_Name", propertypeSelected);
+            ViewBag.District_ID = new SelectList(model.Districts.ToList(), "ID", "District_Name", districtSelected);
+            ViewBag.Property_Status_ID = new SelectList(model.Property_Status.ToList(), "ID", "Property_Status_Name", statusSelected);
+
         }
         public void PopularMessage(bool success)
         {
-            if (success)
-                Session["success"] = "Successful!";
+            if (success == true)
+            {
+                Session["success"] = "Sucessfull";
+            }
+
             else
-                Session["success"] = "Fail!";
-        }
+            {
+                Session["success"] = "Failed";
+            }
 
-        [HttpGet]
-        public ActionResult Edit(int id)
-        {
-            var property = model.Properties.FirstOrDefault(x => x.ID == id);
-            PopularData(property.Property_Type_ID, property.District_ID, property.Property_Status_ID);
-            return View(property);
         }
-
         [HttpPost]
-        public ActionResult Edit(int id, Property pr)
+
+        public ActionResult Create([Bind(Include = "Property_Name,Property_Type_ID,Description,District_ID,Address" +
+            ",Area,Bed_Room,Bath_Room,Price,Installment_Rate,Avatar,Album,Property_Status_ID")]
+        Property property, HttpPostedFileBase[] files, HttpPostedFileBase file
+           , List<int> Service_ID)
         {
+
             if (ModelState.IsValid)
             {
                 using (var scope = new TransactionScope())
                 {
-                    // add model to database
-                    var prop = model.Properties.FirstOrDefault(x => x.ID == id);
-                    prop.Property_Name = pr.Property_Name;
-                    prop.Property_Type_ID = pr.Property_Type_ID;
-                    prop.Description = pr.Description;
-                    prop.District_ID = pr.District_ID;
-                    prop.Address = pr.Address;
-                    prop.Area = pr.Area;
-                    prop.Bed_Room = pr.Bed_Room;
-                    prop.Bath_Room = pr.Bath_Room;
-                    prop.Price = pr.Price;
-                    prop.Installment_Rate = pr.Installment_Rate;
-                    prop.Avatar = pr.Avatar;
-                    prop.Album = pr.Album;
-                    prop.Property_Status_ID = pr.Property_Status_ID;
 
-                    // save file to app_data
-                    var path = Server.MapPath("~/App_Data");
-                    path = System.IO.Path.Combine(path, pr.ID.ToString());
+                    model.Properties.Add(property);
 
-                    if (Request.Files["Image"].ContentLength != 0)
+                    string album = "";
+                    Random random = new Random();
+                    if (files != null)
                     {
-                        Request.Files["Image"].SaveAs(path + "_0");
+                        foreach (var imageFile in files)
+                        {
+                            if (imageFile != null)
+                            {
+                                var fileName = random.Next(1, 99999).ToString() + Path.GetFileName(imageFile.FileName);
+                                var physicalPath = Path.Combine(Server.MapPath("~/Images/"), fileName);
+
+                                // The files are not actually saved in this demo
+                                imageFile.SaveAs(physicalPath);
+                                album += album.Length > 0 ? ";" + fileName : fileName;
+                            }
+                        }
+                    }
+                    property.Album = album;
+                    if (file != null)
+                    {
+                        var avatar = random.Next(1, 99999).ToString() + Path.GetFileName(file.FileName);
+                        var physicPath = Path.Combine(Server.MapPath("~/Images/"), avatar);
+                        file.SaveAs(physicPath);
+                        property.Avatar = avatar;
                     }
 
-                    if (Request.Files["Image1"].ContentLength != 0)
+
+
+                    foreach (var item in Service_ID)
                     {
-                        Request.Files["Image1"].SaveAs(path + "_1");
+                        Property_Service properS = new Property_Service();
+                        properS.Property_ID = property.ID;
+                        properS.Service_ID = item;
+                        model.Property_Service.Add(properS);
+
+
                     }
 
-                    if (Request.Files["Image2"].ContentLength != 0)
-                    {
-                        Request.Files["Image2"].SaveAs(path + "_2");
-                    }
-
-                    model.Entry(prop).State = EntityState.Modified;
                     model.SaveChanges();
-                    PopularMessage(true);
-
-                    // all done successfully
                     scope.Complete();
+
+                    PopularMessage(true);
                     return RedirectToAction("Index");
+
                 }
             }
-            else
-                PopularMessage(false);
-                PopularData();
-                return View("Edit", pr);      
-        }
+            otherData();
+            PopuparData();
+            PopularMessage(false);
+            return View("Create", property);
 
-        [HttpGet]
-        public ActionResult Delete(int id)
-        {
-            var property = model.Properties.FirstOrDefault(x => x.ID == id);
-            return View(property);
         }
 
         [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Edit(Property property, int District_ID, int Property_Status_ID, HttpPostedFileBase[] files, HttpPostedFileBase file
+          , List<int> Service_ID)
         {
-            var property = model.Properties.FirstOrDefault(x => x.ID == id);
-            model.Properties.Remove(property);
-            model.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+
+                using (var scrope = new TransactionScope())
+                {
+
+                    property = model.Properties.FirstOrDefault(x => x.ID == property.ID);
+                    string album = property.Album;
+                    Random random = new Random();
+                    if (files != null)
+                    {
+                        foreach (var imageFile in files)
+                        {
+                            if (imageFile != null)
+                            {
+                                var fileName = random.Next(1, 99999).ToString() + Path.GetFileName(imageFile.FileName);
+                                var physicalPath = Path.Combine(Server.MapPath("~/Images"), fileName);
+
+                                // The files are not actually saved in this demo
+                                imageFile.SaveAs(physicalPath);
+                                album += album.Length > 0 ? ";" + fileName : fileName;
+                            }
+                        }
+
+                    }
+                    property.Album = album;
+                    // Avatar
+                    if (file != null)
+                    {
+                        var avatar = random.Next(1, 99999).ToString() + Path.GetFileName(file.FileName);
+                        var physicPath = Path.Combine(Server.MapPath("~/Images"), avatar);
+                        file.SaveAs(physicPath);
+                        property.Avatar = avatar;
+                    }
+
+                    // add model to database
+                    property.District_ID = District_ID;
+                    property.Property_Status_ID = Property_Status_ID;
+
+
+                    if (Service_ID != null)
+                    {
+                        var orn = model.Property_Service.Where(x => x.Property_ID == property.ID).ToArray();
+                        for (int i = 0; i < orn.Length; i++)
+                        {
+                            var tmp = orn[i];
+                            Property_Service psDell = model.Property_Service.FirstOrDefault(x => x.Property_ID == tmp.Property_ID);
+                            model.Property_Service.Remove(psDell);
+                            model.SaveChanges();
+                        }
+                    }
+
+                    foreach (var item in Service_ID)
+                    {
+                        Property_Service properS = new Property_Service();
+                        properS.Property_ID = property.ID;
+                        properS.Service_ID = item;
+                        model.Property_Service.Add(properS);
+                        model.SaveChanges();
+                    }
+                    model.Entry(property).State = EntityState.Modified;
+                    model.SaveChanges();
+                    // save file to app_data
+                    scrope.Complete();
+                    // all done successfully
+                    PopularMessage(true);
+                    return RedirectToAction("Index");
+                }
+            }
+            PopularMessage(false);
+            otherData();
+            PopuparData();
+            return View("Edit", property);
         }
 
-        [HttpGet]
-        public ActionResult Details(int id)
+        public void otherData(object selectedCity = null, IQueryable<int> selectedService = null)
         {
-            var property = model.Properties.FirstOrDefault(x => x.ID == id);
-            return View(property);
-        }
 
-        public void PopularData(object propertyTypeSelected = null, object districtSelected = null, object propertStatusSelected = null, object citySelected = null)
-        {
-            ViewBag.District_ID = new SelectList(model.Districts.ToList(), "ID", "District_Name", districtSelected);
-            ViewBag.Property_Type_ID = new SelectList(model.Property_Type.ToList(), "ID", "Property_Type_Name", propertyTypeSelected);
-            ViewBag.Property_Status_ID = new SelectList(model.Property_Status.ToList(), "ID", "Property_Status_Name", propertStatusSelected);
-            ViewBag.City_ID = new SelectList(model.Cities.ToList(), "ID", "City_Name", citySelected);
-        }
+            ViewBag.City_ID = new SelectList(model.Cities.ToList(), "ID", "City_Name", selectedCity);
 
-        public ActionResult Image(string id)
-        {
-            var path = Server.MapPath("~/App_Data");
-            path = System.IO.Path.Combine(path, id);
-            return File(path + "_0", "image/*");
-        }
 
-        public ActionResult Image1(string id)
-        {
-            var path = Server.MapPath("~/App_Data");
-            path = System.IO.Path.Combine(path, id);
-            return File(path + "_1", "image/*");
-        }
-
-        public ActionResult Image2(string id)
-        {
-            var path = Server.MapPath("~/App_Data");
-            path = System.IO.Path.Combine(path, id);
-            return File(path + "_2", "image/*");
+            ViewBag.Service_ID = new MultiSelectList(model.Services.ToList(), "ID", "Service_Name", selectedService);
         }
 
         public JsonResult GetDistrictByCityId(int id)
@@ -205,5 +243,55 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             var listDistrict = model.Districts.Where(x => x.City_ID == id).ToList();
             return Json(listDistrict, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+
+        public string deleteImage(string imageName, int id)
+        {
+            string fullPath = Request.MapPath("~/Images" + imageName);
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+            var property = model.Properties.FirstOrDefault(x => x.ID == id);
+            var album = property.Album.Split(';');
+            album = album.Where(w => w != imageName).ToArray();
+            property.Album = string.Join(";", album);
+
+            model.Entry(property).State = EntityState.Modified;
+            model.SaveChanges();
+            return property.Album;
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Property property = model.Properties.FirstOrDefault(x => x.ID == id);
+            var inOrder_Installment = model.Installment_Contract.Where(x => x.Property_ID == id);
+            var inOrder_FullContact = model.Full_Contract.Where(x => x.Property_ID == id);
+            var orn = model.Property_Service.Where(x => x.Property_ID == property.ID).ToArray();
+            if (inOrder_FullContact.Count() != 0 || inOrder_Installment.Count() != 0)
+            {
+                TempData["msg"] = "<script>alert('BẤT ĐỘNG SẢN HIỆN ĐANG TRONG QUÁ TRÌNH CÓ HỢP ĐỒNG!!! VUI LÒNG QUAY LẠI.');</script>";
+            }
+            else
+            {
+                for (int i = 0; i < orn.Length; i++)
+                {
+                    var tmp = orn[i];
+                    Property_Service psDell = model.Property_Service.FirstOrDefault(x => x.Property_ID == tmp.Property_ID);
+                    model.Property_Service.Remove(psDell);
+                    model.SaveChanges();
+
+                }
+                model.Properties.Remove(property);
+                model.SaveChanges();
+                PopularMessage(true);
+                return RedirectToAction("Index");
+            }
+            PopularMessage(false);
+            return View(property);
+        }
+
     }
 }

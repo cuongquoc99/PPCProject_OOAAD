@@ -5,117 +5,167 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<title>Quản Lý Bất Động Sản</title>
-
+<title>Manage Property.</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    h2 { 
-        font-weight: bold;
-        text-align: center;
-        color: blueviolet; 
-        margin-top: 7px;
-        margin-bottom: -7px;
-    }
-
-    .btn-primary {
-        margin-left: 20px;
-        margin-top: 5px;
-    }
-
-    .btn-primary:hover {
-        font-weight: bold;
-        color: yellow;
-    }
-
-    img {
-        width: 150px;
-        height: 150px;
-    }
-
-    th {
-        text-align: center;
-        background-color: chartreuse;
-        color: coral;
-    }
-
-    td {
-        text-align: center;
-    }
-
-    .btn-info:hover {
+    .fa-trash:hover {
         font-weight: bold;
     }
 
-    .btn-warning:hover {
-        font-weight: bold;
+    .dropbtn {
+        background-color: teal;
+        color: white;
+        padding: 15px;
+        font-size: 13px;
+        border: none;
+        font-weight: bold
     }
 
-    .btn-danger:hover {
+    .dropup {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropup-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        bottom: 50px;
+        z-index: 1;
+    }
+
+        .dropup-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropup-content a:hover {
+                background-color: #ccc
+            }
+
+    .dropup:hover .dropup-content {
+        display: block;
+    }
+
+    .dropup:hover .dropbtn {
+        background-color: #2980B9;
+    }
+
+    .btn-group button {
+        background-color: #4CAF50; /* Green background */
+        border: 1px solid green; /* Green border */
+        color: white; /* White text */
+        padding: 10px 24px; /* Some padding */
+        cursor: pointer; /* Pointer/hand icon */
+        float: left; /* Float the buttons side by side */
+    }
+
+    /* Clear floats (clearfix hack) */
+    .btn-group:after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .btn-group button:not(:last-child) {
+        border-right: none; /* Prevent double borders */
+    }
+
+    /* Add a background color on hover */
+    .btn-group button:hover {
+        background-color: #3e8e41;
+    }
+
+    .btn-default:hover {
         font-weight: bold;
     }
 </style>
 
-<h2>QUẢN LÝ BẤT ĐỘNG SẢN</h2>
-<hr />
+<h2 style="text-align:center">DANH SÁCH BẤT ĐỘNG SẢN</h2>
+@if (Session["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Well done!</strong> @Session["success"]
+    </div>
+}
 
 <p>
-    @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Thêm bất động sản", "Create", null, new { @class = "btn btn-primary" })
 </p>
 
-<div class="card-body">
-    <table id="example1" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Property Code</th>
-                <th>Property Name</th>
-                <th>Price</th>
-                <th>Avatar</th>
-                <th>Property Status</th>
-                <th></th>
+
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr class="thead-dark" align=" center">
+            <th>Mã BĐS</th>
+            <th>Tên BĐS</th>
+            <th>Ảnh đại diện</th>
+            <th>Giá tiền</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr align="center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property_Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property_Name)
+                </td>
+                <td>
+                    <a href="@(Url.Content("~/Images/" + item.Avatar))" data-toggle="lightbox" data-gallery="gallery">
+                        @if (!String.IsNullOrEmpty(item.Avatar) && item.Avatar != "")
+                        {<img src="@(Url.Content("~/Images/" + item.Avatar))" width="200" />}
+                    </a>
+                </td>
+                <td>
+                    @string.Format("{0:0,0} VND", @Html.DisplayFor(modelItem => item.Price))
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property_Status.Property_Status_Name)
+                </td>
+
+                <td>
+                    <div>
+                        <button class="btn btn-warning">
+                            <span>
+                                @Html.ActionLink("Cập nhật", "Edit", new { id = item.ID })
+                            </span>
+                        </button>
+                    </div>   
+                    <p></p>
+                    <div class="dropup">
+                        <button class="dropbtn">Thêm hợp đồng</button>
+                        <div class="dropup-content">
+                            <a href="@Url.Action("Create", "InstallmentContract",new { id= item.ID})">Hợp đồng trả góp</a>
+                            <a href="@Url.Action("Create", "FullContract",new { id= item.ID})">Hợp đồng đầy đủ</a>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div>
+                        <button class="btn btn-default">
+                            <span class="fa fa-trash">
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                            </span>
+                        </button>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td style="font-weight: bold">
-                        @Html.DisplayFor(modelItem => item.Property_Code)
-                    </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Property_Name)
-                    </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    
-                    <td>
-                        <img src="@Url.Action("Image", new { id = item.ID })" />
-                    </td>
-                    
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Property_Status.Property_Status_Name)
-                    </td>
-                    
-                    <td>
-                        <div>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-warning" })
-                        </div>
-                        <p></p>
-                        <div>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-                        </div>
-                        <p></p>
-                        <div>
-                            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
-                        </div>
-                    </td>
-                </tr>
-            }
-
-        </tbody>
-        
-    </table>
-</div>
-
+}

@@ -8,20 +8,20 @@ using System.Web;
 using System.Web.Mvc;
 using Propertymanagerment.Models;
 
-namespace Propertymanagerment.Areas.Admin.Controllers
+namespace PropertyManagerment.Areas.Admin.Controllers
 {
     public class FullContractController : Controller
     {
         private PPCDBEntities db = new PPCDBEntities();
 
-        // GET: Admin/FullContract
+        // GET: Admin/Full_Contract
         public ActionResult Index()
         {
             var full_Contract = db.Full_Contract.Include(f => f.Property);
             return View(full_Contract.ToList());
         }
 
-        // GET: Admin/FullContract/Details/5
+        // GET: Admin/Full_Contract/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,14 +36,14 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             return View(full_Contract);
         }
 
-        // GET: Admin/FullContract/Create
+        // GET: Admin/Full_Contract/Create
         public ActionResult Create()
         {
             ViewBag.Property_ID = new SelectList(db.Properties, "ID", "Property_Code");
             return View();
         }
 
-        // POST: Admin/FullContract/Create
+        // POST: Admin/Full_Contract/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -61,7 +61,7 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             return View(full_Contract);
         }
 
-        // GET: Admin/FullContract/Edit/5
+        // GET: Admin/Full_Contract/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,7 +77,7 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             return View(full_Contract);
         }
 
-        // POST: Admin/FullContract/Edit/5
+        // POST: Admin/Full_Contract/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -94,7 +94,7 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             return View(full_Contract);
         }
 
-        // GET: Admin/FullContract/Delete/5
+        // GET: Admin/Full_Contract/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -109,7 +109,7 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             return View(full_Contract);
         }
 
-        // POST: Admin/FullContract/Delete/5
+        // POST: Admin/Full_Contract/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -118,6 +118,15 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             db.Full_Contract.Remove(full_Contract);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
         public ActionResult Print(int id)
         {
@@ -133,7 +142,7 @@ namespace Propertymanagerment.Areas.Admin.Controllers
                 fc.Price = contract.Price;
                 fc.Property_Code = contract.Property.Property_Code;
                 fc.SSN = contract.SSN;
-                fc.Address = contract.Property.Address;
+                fc.Address = contract.Property.Address; ;
                 fc.Full_Contract_Code = contract.Full_Contract_Code;
                 return View(fc);
             }
@@ -141,14 +150,6 @@ namespace Propertymanagerment.Areas.Admin.Controllers
             {
                 return View();
             }
-        }
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
