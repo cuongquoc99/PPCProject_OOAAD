@@ -1,17 +1,12 @@
 ﻿@model IEnumerable<Propertymanagerment.Models.Installment_Contract>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<!DOCTYPE html>
+@*<h2>Index</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
@@ -67,7 +62,7 @@
             </th>
             <th></th>
         </tr>
-    
+
     @foreach (var item in Model) {
         <tr>
             <td>
@@ -125,7 +120,119 @@
             </td>
         </tr>
     }
-    
-    </table>
-</body>
-</html>
+
+    </table>*@
+
+    <h2 style="text-align:center">DANH SÁCH HỢP ĐỒNG THANH TOÁN TRẢ GÓP</h2>
+@if (Session["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Well done!</strong> @Session["success"]
+    </div>
+}
+
+
+<table class="table table-bordered table-striped" id="example1">
+    <thead>
+        <tr>
+            <th>
+                Mã hợp đồng
+            </th>
+            <th>
+                Mã Bất động sản
+            </th>
+            <th>
+                Tên Khách Hàng
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Ngày lập hợp đồng
+            </th>
+            <th>
+                Giá trị hợp đồng
+            </th>
+            <th>
+                Trạng thái hợp đồng
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installment_Contract_Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Property.Property_Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_Name)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Of_Contract)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+
+                <a href="@Url.Action("Print", "Installment_ContractAdmin", new { id = item.ID })" target="_blank">
+                    <button class="print-button">
+                        <span class="print-icon"></span>
+                    </button>|
+                </a>
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>FULL CONTRACT CODE</th>
+            <th>CUSTOMER NAME</th>
+            <th>SSN</th>
+            <th>PROPERTY CODE</th>
+            <th>MOBILE</th>
+            <th>DATE OF CONTRACT</th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
+            $('.filter-container').filterizr({ gutterPixels: 3 });
+            $('.btn[data-filter]').on('click', function () {
+                $('.btn[data-filter]').removeClass('active');
+                $(this).addClass('active');
+            });
+        })
+    </script>
+}

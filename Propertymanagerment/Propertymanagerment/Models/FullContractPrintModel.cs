@@ -14,8 +14,8 @@ namespace Propertymanagerment.Models
         public string SSN { get; set; }
         public string Property_Code { get; set; }
         public string Address { get; set; }
-        public Nullable<System.DateTime> Date_Of_Contract { get; set; }
+        public Nullable <System.DateTime> Date_of_Contract { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Deposit { get; set; }
-    }
+}
 }

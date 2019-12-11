@@ -4,13 +4,14 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using Propertymanagerment.Models;
 
-namespace PropertyManagerment.Areas.Admin.Controllers
+namespace Propertymanagerment.Areas.Admin.Controllers
 {
-    public class InstallmentContractController : Controller
+    public class Installment_ContractAdminController : Controller
     {
         private PPCDBEntities db = new PPCDBEntities();
 
@@ -21,78 +22,89 @@ namespace PropertyManagerment.Areas.Admin.Controllers
             return View(installment_Contract.ToList());
         }
 
-        // GET: Admin/Installment_ContractAdmin/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Installment_Contract installment_Contract = db.Installment_Contract.Find(id);
-            if (installment_Contract == null)
-            {
-                return HttpNotFound();
-            }
-            return View(installment_Contract);
-        }
-
         // GET: Admin/Installment_ContractAdmin/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.Property_ID = new SelectList(db.Properties, "ID", "Property_Code");
-            return View();
+            var property = db.Properties.FirstOrDefault(x => x.ID == id);
+            dateYearOfBirth();
+
+            if (property != null)
+            {
+                var ic = new Installment_Contract();
+                ic.Price = property.Price;
+                ViewData["PP_Code"] = property.Property_Code;
+                return View(ic);
+            }
+            else
+            {
+                return View();
+            }
         }
 
-        // POST: Admin/Installment_ContractAdmin/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Installment_Contract_Code,Customer_Name,Year_Of_Birth,SSN,Customer_Address,Mobile,Property_ID,Date_Of_Contract,Installment_Payment_Method,Payment_Period,Price,Deposit,Loan_Amount,Taken,Remain,Status")] Installment_Contract installment_Contract)
+        public ActionResult Create([Bind(Include = "Customer_Name,Year_Of_Birth,SSN,Customer_Address," +
+            "Mobile," +
+            "Payment_Period,Price,Deposit,Loan_Amount,Taken,Remain")] Installment_Contract contract, string Property_Code)
         {
+
+            var property = db.Properties.FirstOrDefault(m => m.Property_Code.Equals(Property_Code.ToString()));
+            int Property_ID = property.ID;
             if (ModelState.IsValid)
             {
-                db.Installment_Contract.Add(installment_Contract);
-                db.SaveChanges();
+                using (var scope = new TransactionScope())
+                {
+                    contract.Property_ID = Property_ID;
+                    contract.Installment_Payment_Method = "Tháng";
+                    contract.Remain = contract.Price - contract.Deposit;
+                    contract.Status = false;
+                    contract.Date_Of_Contract = DateTime.Now;
+                    db.Installment_Contract.Add(contract);
+                    db.SaveChanges();
+                    scope.Complete();
+                }
+
                 return RedirectToAction("Index");
             }
+            dateYearOfBirth();
 
-            ViewBag.Property_ID = new SelectList(db.Properties, "ID", "Property_Code", installment_Contract.Property_ID);
-            return View(installment_Contract);
+            return View("NewContract", contract);
         }
 
-        // GET: Admin/Installment_ContractAdmin/Edit/5
+        // GET: Admin/Full_Contract/Delete/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("index", "notfound");
             }
-            Installment_Contract installment_Contract = db.Installment_Contract.Find(id);
-            if (installment_Contract == null)
+            Installment_Contract contract = db.Installment_Contract.FirstOrDefault(x => x.ID == id);
+
+            if (contract == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("index", "notfound");
             }
-            ViewBag.Property_ID = new SelectList(db.Properties, "ID", "Property_Code", installment_Contract.Property_ID);
-            return View(installment_Contract);
+            return View(contract);
         }
 
-        // POST: Admin/Installment_ContractAdmin/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Installment_Contract_Code,Customer_Name,Year_Of_Birth,SSN,Customer_Address,Mobile,Property_ID,Date_Of_Contract,Installment_Payment_Method,Payment_Period,Price,Deposit,Loan_Amount,Taken,Remain,Status")] Installment_Contract installment_Contract)
+        public ActionResult Edit(Installment_Contract contract, string Mobile, string Customer_Name, decimal Taken)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(installment_Contract).State = EntityState.Modified;
+                contract = db.Installment_Contract.FirstOrDefault(x => x.ID == contract.ID);
+                contract.Customer_Name = Customer_Name;
+                contract.Mobile = Mobile;
+                contract.Taken = Taken;
+                contract.Remain = contract.Price - contract.Taken - contract.Deposit;
+                db.Entry(contract).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            ViewBag.Property_ID = new SelectList(db.Properties, "ID", "Property_Code", installment_Contract.Property_ID);
-            return View(installment_Contract);
+            return View("Edit", contract);
         }
+
+
 
         // GET: Admin/Installment_ContractAdmin/Delete/5
         public ActionResult Delete(int? id)
@@ -136,7 +148,7 @@ namespace PropertyManagerment.Areas.Admin.Controllers
                 InstallmentContractPrintModel fc = new InstallmentContractPrintModel();
                 fc.Customer_Name = contract.Customer_Name;
                 fc.Customer_Address = contract.Customer_Address;
-                fc.Date_Of_Contract = contract.Date_Of_Contract;
+                fc.Date_of_Contract = contract.Date_Of_Contract;
                 fc.Deposit = contract.Deposit;
                 fc.Mobile = contract.Mobile;
                 fc.Price = contract.Price;
@@ -150,6 +162,11 @@ namespace PropertyManagerment.Areas.Admin.Controllers
             {
                 return View();
             }
+        }
+        public void dateYearOfBirth()
+        {
+            ViewBag.Year_Of_Birth = new SelectList(Enumerable.Range(1900, (DateTime.Now.Year - 1900) + 1));
+            ViewBag.Payment_Period = new SelectList(Enumerable.Range(1, 12));
         }
     }
 }
