@@ -1,0 +1,238 @@
+﻿@model IEnumerable<PropertyManagerment.Models.Installment_Contract>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Installment_Contract_Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year_Of_Birth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SSN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer_Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_Of_Contract)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Installment_Payment_Method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payment_Period)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deposit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan_Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Taken)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remain)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property.Property_Code)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installment_Contract_Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year_Of_Birth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SSN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Of_Contract)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installment_Payment_Method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Payment_Period)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deposit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Loan_Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Taken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remain)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Property.Property_Code)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            </td>
+        </tr>
+    }
+
+    </table>*@
+
+    <h2 style="text-align:center">DANH SÁCH HỢP ĐỒNG THANH TOÁN TRẢ GÓP</h2>
+@if (Session["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Well done!</strong> @Session["success"]
+    </div>
+}
+
+
+<table class="table table-bordered table-striped" id="example1">
+    <thead>
+        <tr>
+            <th>
+                Mã hợp đồng
+            </th>
+            <th>
+                Mã Bất động sản
+            </th>
+            <th>
+                Tên Khách Hàng
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Ngày lập hợp đồng
+            </th>
+            <th>
+                Giá trị hợp đồng
+            </th>
+            <th>
+                Trạng thái hợp đồng
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installment_Contract_Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Property.Property_Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_Name)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Of_Contract)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+
+                <a href="@Url.Action("Print", "Installment_ContractAdmin", new { id = item.ID })" target="_blank">
+                    <button class="print-button">
+                        <span class="print-icon"></span>
+                    </button>|
+                </a>
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>FULL CONTRACT CODE</th>
+            <th>CUSTOMER NAME</th>
+            <th>SSN</th>
+            <th>PROPERTY CODE</th>
+            <th>MOBILE</th>
+            <th>DATE OF CONTRACT</th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
+            $('.filter-container').filterizr({ gutterPixels: 3 });
+            $('.btn[data-filter]').on('click', function () {
+                $('.btn[data-filter]').removeClass('active');
+                $(this).addClass('active');
+            });
+        })
+    </script>
+}
