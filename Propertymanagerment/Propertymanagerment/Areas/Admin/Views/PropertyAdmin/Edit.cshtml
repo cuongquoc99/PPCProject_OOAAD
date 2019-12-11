@@ -4,139 +4,41 @@
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>CẬP NHẬT BẤT ĐỘNG SẢN</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "PropertyAdmin")" >DANH SÁCH BẤT ĐỘNG SẢN</a></li>
-                        <li class="breadcrumb-item active">CẬP NHẬT</li>
-                    </ol>
-                </div>
+
+<title>Update Property.</title>
+
+<style>
+    input[id='Property_Name'] {
+        width: 400px;
+    }
+
+    input {
+        height: 38px;
+    }
+</style>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>CẬP NHẬT BẤT ĐỘNG SẢN</h1>
             </div>
-        </div><!-- /.container-fluid -->
-    </section>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "PropertyAdmin")">DANH SÁCH BẤT ĐỘNG SẢN</a></li>
+                    <li class="breadcrumb-item active">CẬP NHẬT</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
 
 @using (Html.BeginForm("Edit", "PropertyAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.ID , new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(model => model.ID)
 
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.Property_Name, "Tên bất động sản", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Property_Name, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.Property_Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Property_Type_ID, "Loại bất động sản", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.DropDownList("Property_Type_ID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Property_Type_ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, "Mô tả", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.District.City_ID, "Tỉnh/Thành", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @if (ViewBag.City_ID != null)
-                {
-                    @Html.DropDownListFor(model => model.District.City_ID, ViewBag.City_ID as SelectList, "-Select city-", new { @id = "ddlCity", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.District.City_ID, "", new { @class = "text-danger" })
-                }
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.District_ID, "Quận/Huyện", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.DropDownList("District_ID", null, htmlAttributes: new { @id = "ddlDistrict", @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.District_ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address, "Địa chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Area, "Diện tích", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Bed_Room, "Phòng ngủ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Bed_Room, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Bed_Room, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Bath_Room, "Phòng tắm", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Bath_Room, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Bath_Room, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2"> Dịch vụ</label>
-            <div class="col-md-6">
-
-                @Html.ListBox("Service_ID", null, htmlAttributes: new
-                {
-                    @class = "form-control selectpicker show-tick"
-               ,
-                    @multiple = true
-                })
-
-
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Price, "Giá tiền", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Installment_Rate, "Lãi suất trả góp", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Installment_Rate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Installment_Rate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Property_Status_ID, "Trạng thái", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.DropDownList("Property_Status_ID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Property_Status_ID, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
     <div class="col-12">
         <div class="card card-danger">
             <div class="card-header">
@@ -150,7 +52,7 @@
                         <div class="form-group">
                             <label> TÊN BẤT ĐỘNG SẢN</label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Property_Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Property_Name, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                                 @Html.ValidationMessageFor(model => model.Property_Name, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -269,7 +171,7 @@
                         <div class="form-group">
                             <label>GIÁ BÁN CỦA BẤT ĐỘNG SẢN </label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } }) VNĐ
                                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -278,7 +180,7 @@
                         <div class="form-group">
                             <label>LÃI SUẤT TRẢ GÓP</label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Installment_Rate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Installment_Rate, new { htmlAttributes = new { @class = "form-control" } }) %
                                 @Html.ValidationMessageFor(model => model.Installment_Rate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -312,7 +214,7 @@
                             <div class="col-sm-2">
                                 <a href="@(Url.Content("~/Images/" + Model.Avatar))" data-toggle="lightbox" data-gallery="gallery">
                                     @if (!String.IsNullOrEmpty(Model.Avatar) && Model.Avatar != "")
-                                    {<img src="@(Url.Content("~/Images/" + Model.Avatar))" width="300" style="margin-left:2000%" />}
+                                    {<img src="@(Url.Content("~/Images/" + Model.Avatar))" width="300" style="margin-left: 2000%" />}
                                 </a>
                             </div>
                         </div>
@@ -349,13 +251,13 @@
                                 {
                                     if (!String.IsNullOrEmpty(image) || image != "")
                                     {
-
                                         <span id="image-@(i)">
-                                            <img src="@(Url.Content("~/Images/" + image))" width="80" />
-                                            <button type="button" id="album" name="files" class="btn btn-danger" onclick="@("deleteImage(\"" + image + "\"," + Model.ID + "," + i + ");")">Delete</button>
+                                            <a href="@(Url.Content("~/Images/" + image))" data-toggle="lightbox">
+                                                <img src="@(Url.Content("~/Images/" + image))" width="200" />
+                                            </a>
+                                            <p><button type="button" id="album" name="files" class="btn btn-danger" onclick="@("deleteImage(\"" + image + "\"," + Model.ID + "," + i + ");")" onchange="readIMG(this)">Delete</button></p>
                                         </span>
                                         i++;
-
                                     }
                                 }
                             }
@@ -374,8 +276,10 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Cập nhật" class="btn btn-primary" style="margin-left:5%" />
-            <div class="btn btn-warning" style="margin-left:50%">@Html.ActionLink("Quay lại", "Index")</div>
+            <div align="center">
+                <input type="submit" value="Cập nhật" class="btn btn-primary" style="margin-left:5%" />
+            </div>
+            <div class="btn btn-warning">@Html.ActionLink("Quay lại", "Index")</div>
         </div>
     </div>
 
@@ -439,4 +343,20 @@
             });
         })
     </script>
+    <script>
+            function readIMG(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(input).next()
+                            .attr('src', e.target.result)
+                            .width(150)
+                            .height(150);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
 }

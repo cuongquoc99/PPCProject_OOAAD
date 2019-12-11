@@ -8,7 +8,7 @@ using System.IO;
 using System.Transactions;
 using System.Data.Entity;
 
-namespace Propertymanagerment.Areas.Admin.Controllers
+namespace PropertyManagerment.Areas.Admin.Controllers
 {
     public class PropertyAdminController : Controller
     {
@@ -135,6 +135,7 @@ namespace Propertymanagerment.Areas.Admin.Controllers
 
                     model.SaveChanges();
                     scope.Complete();
+
                     PopularMessage(true);
                     return RedirectToAction("Index");
 
@@ -148,9 +149,8 @@ namespace Propertymanagerment.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Property property, string Property_Name, int Property_Type_ID, string Description,
-           string Address, int Area, int Bed_Room, int Bath_Room, decimal Price, double Installment_Rate, int District_ID, int Property_Status_ID, HttpPostedFileBase[] files, HttpPostedFileBase file
-         , List<int> Service_ID)
+        public ActionResult Edit(Property property, int District_ID, int Property_Status_ID, HttpPostedFileBase[] files, HttpPostedFileBase file
+          , List<int> Service_ID)
         {
             if (ModelState.IsValid)
             {
@@ -188,15 +188,6 @@ namespace Propertymanagerment.Areas.Admin.Controllers
                     }
 
                     // add model to database
-                    property.Address = Address;
-                    property.Area = Area;
-                    property.Description = Description;
-                    property.Bath_Room = Bath_Room;
-                    property.Bed_Room = Bed_Room;
-                    property.Installment_Rate = Installment_Rate;
-                    property.Price = Price;
-                    property.Property_Type_ID = Property_Type_ID;
-                    property.Property_Name = Property_Name;
                     property.District_ID = District_ID;
                     property.Property_Status_ID = Property_Status_ID;
 
@@ -226,35 +217,15 @@ namespace Propertymanagerment.Areas.Admin.Controllers
                     // save file to app_data
                     scrope.Complete();
                     // all done successfully
-
+                    PopularMessage(true);
                     return RedirectToAction("Index");
                 }
             }
+            PopularMessage(false);
             otherData();
             PopuparData();
             return View("Edit", property);
         }
-
-
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Property property = model.Properties.FirstOrDefault(x => x.ID == id);
-
-        //    var orn = model.Property_Service.Where(x => x.Property_ID == property.ID).ToArray();
-        //    for (int i = 0; i < orn.Length; i++)
-        //    {
-        //        var tmp = orn[i];
-        //        Property_Service psDell = model.Property_Service.FirstOrDefault(x => x.Property_ID == tmp.Property_ID);
-        //        model.Property_Service.Remove(psDell);
-        //        model.SaveChanges();
-        //    }
-        //    model.Properties.Remove(property);
-        //    model.SaveChanges();
-        //    return RedirectToAction("Index");
-
-        //}
 
         public void otherData(object selectedCity = null, IQueryable<int> selectedService = null)
         {
@@ -312,11 +283,11 @@ namespace Propertymanagerment.Areas.Admin.Controllers
                     model.Property_Service.Remove(psDell);
                     model.SaveChanges();
 
-                }  
+                }
                 model.Properties.Remove(property);
                 model.SaveChanges();
                 PopularMessage(true);
-                return RedirectToAction("Index"); 
+                return RedirectToAction("Index");
             }
             PopularMessage(false);
             return View(property);

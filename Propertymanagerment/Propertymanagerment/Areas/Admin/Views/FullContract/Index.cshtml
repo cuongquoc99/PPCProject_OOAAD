@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Propertymanagerment.Models.Full_Contract>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<title>Manager Full Contract.</title>
+
+<h2 style="text-align:center">VIEW LIST OF FULL CONTRACT</h2>
+@if (Session["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Well done!</strong> @Session["success"]
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Thêm bất động sản", "Create", null, new { @class = "btn btn-primary" })
+
+</p>
+<table class="table table-bordered table-striped" id="example1">
+    <thead>
+        <tr>
+            <th>FULL CONTRACT CODE</th>
+            <th>CUSTOMER NAME</th>
+            <th>SSN</th>
+            <th>PROPERTY CODE</th>
+            <th>MOBILE</th>
+            <th>DATE OF CONTRACT</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Full_Contract_Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SSN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property.Property_Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_Of_Contract)
+                </td>
+                <td>
+                    <a href="@Url.Action("Print", "FullContract", new { id = item.ID })" target="_blank">
+                        <button style="font-weight: bold">
+                            <span class="fa fa-print">Print</span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>FULL CONTRACT CODE</th>
+            <th>CUSTOMER NAME</th>
+            <th>SSN</th>
+            <th>PROPERTY CODE</th>
+            <th>MOBILE</th>
+            <th>DATE OF CONTRACT</th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
+            $('.filter-container').filterizr({ gutterPixels: 3 });
+            $('.btn[data-filter]').on('click', function () {
+                $('.btn[data-filter]').removeClass('active');
+                $(this).addClass('active');
+            });
+        })
+    </script>
+}
